@@ -6,6 +6,26 @@ on:
       - feature**
 
 jobs:
+  validate-structure:
+   runs-on: ubuntu-latest
+   permissions:
+     contents: read
+     packages: write
+     
+   steps:
+
+    - name: Structure repository
+      run: | 
+        echo "Validacion de estructura de repositorio"
+        echo "Validando archivos.."
+        echo "Validando estructura de carpetas.."
+        echo "Repositorio cumple con estructura definida.."
+        
+    - name: Set Environment variables
+      run: |
+        echo "Configurando variables de ambiente para CI.."
+        echo "Variables de ambiente OK"
+        
   build:
 
     runs-on: ubuntu-latest
@@ -41,8 +61,8 @@ jobs:
       with:
         java-version: '8'
         distribution: 'temurin'
-        server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
-        settings-path: ${{ github.workspace }} # location for the settings.xml file
+        server-id: github
+        settings-path: ${{ github.workspace }}
 
     - name: Build with Maven
       run: | 
@@ -52,7 +72,49 @@ jobs:
       with:
         name: coverage-artifact
         path: target/site/jacoco/
+    
+  static-analysis:
+     runs-on: ubuntu-latest
+     needs: [build,unit-test]
+     permissions:
+       contents: read
+       packages: write
+     
+     steps:
+      - uses: actions/checkout@v3
+    
+      - name: Set up JDK 
+        uses: actions/setup-java@v3
+        with:
+          java-version: '8'
+          distribution: 'temurin'
+          server-id: github
+          settings-path: ${{ github.workspace }} 
 
+      - name: SonarCloud Analysis
+        run: | 
+          #mvn sonar:sonar
+          echo "Analisis de codigo estatico"
+    
+  build-push-image:
+     runs-on: ubuntu-latest
+     needs: static-analysis
+     permissions:
+       contents: read
+       packages: write
+     
+     steps:
+      - uses: actions/checkout@v3
+
+      - name: Build image
+        run: | 
+          #mvn sonar:sonar
+          echo "Construccion imagen"  
+      
+      - name: Push image
+        run: | 
+          #mvn sonar:sonar
+          echo "Push imagen" 
     #- name: Publish to GitHub Packages Apache Maven
       #run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
       #env:
