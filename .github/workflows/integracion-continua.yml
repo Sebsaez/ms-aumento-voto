@@ -48,6 +48,11 @@ jobs:
 
     - name: Build with Maven
       run: mvn package --file pom.xml
+    
+    - uses: actions/upload-artifact@v4
+      with:
+        name: build-artifact
+        path: target/
       
   unit-test:
    runs-on: ubuntu-latest
