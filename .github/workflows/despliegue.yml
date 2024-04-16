@@ -1,9 +1,7 @@
 name: Despliegue
 
 on:
-  push:
-    branches:
-      - develop
+ workflow_call:
 
 jobs:
   deploy:
