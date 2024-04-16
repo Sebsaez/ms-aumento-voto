@@ -123,6 +123,7 @@ jobs:
   
   deploy-dev:
     if: ${{contains(github.ref, 'develop')}}
+    needs: build-push-image
     permissions:
       id-token: write
       contents: write
