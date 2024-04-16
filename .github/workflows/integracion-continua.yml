@@ -120,6 +120,14 @@ jobs:
         run: | 
           #mvn sonar:sonar
           echo "Push imagen" 
+  
+  deploy-dev:
+    if: ${{contains(github.ref, 'develop')}}
+    permissions:
+      id-token: write
+      contents: write
+    uses: devops-foundation-ciclo1-usach2024/ms-aumento-voto/.github/workflows/despliegue.yml@feature/pipeline-ci
+    
     #- name: Publish to GitHub Packages Apache Maven
       #run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
       #env:
