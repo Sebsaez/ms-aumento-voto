@@ -5,6 +5,8 @@ on:
     branches:
       - feature**
       - develop
+  pull_request:
+    types: [opened, reopened]
 
 jobs:
   validate-structure:
