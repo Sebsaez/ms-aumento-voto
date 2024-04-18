@@ -11,12 +11,15 @@ jobs:
 
     steps:
     
-      - uses: actions/checkout@v4
+      - name: Clonacion de codigo
+        uses: actions/checkout@v4
 
-      - name: Hola mundo
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4.2.1
+        with:
+          java-version: '8'
+          distribution: 'temurin'
+      
+      - name: Compilacion
         run: |
-          echo "hola mundo"
-
-      - name: Hola Mundo 2
-        run: |
-          echo "hola mundo 2" 
+          mvn package
