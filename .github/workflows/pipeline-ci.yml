@@ -37,4 +37,12 @@ jobs:
         with:
           username: clagosu
           password: ${{ secrets.DOCKER_PASS }}
-          
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          push: true
+          tags: clagosu/ms-aumento-voto:latest
