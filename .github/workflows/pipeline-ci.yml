@@ -24,6 +24,10 @@ jobs:
       - name: Compilacion
         run: |
           mvn package
+
+      - name: Ejecucion Test Unitarios
+        run: |
+          mvn package test
      
       - name: Setup Java JDK
         uses: actions/setup-java@v4.2.1
